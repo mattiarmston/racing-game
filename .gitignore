@@ -1,5 +1,5 @@
 # Custom files
-log.txt
+debug.log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
