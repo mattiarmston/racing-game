@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+Assets	assets.py	/^class Assets():$/;"	c
+Game	game.py	/^class Game():$/;"	c
+GameObject	gameObject.py	/^class GameObject:$/;"	c
+Player	player.py	/^class Player(GameObject):$/;"	c
+Racing game	README.md	/^# Racing game$/;"	c
+Window	window.py	/^class Window():$/;"	c
+__init__	assets.py	/^    def __init__(self):$/;"	m	class:Assets
+__init__	game.py	/^    def __init__(self, window, assets):$/;"	m	class:Game
+__init__	gameObject.py	/^    def __init__(self, x, y, width, height, image, game):$/;"	m	class:GameObject
+__init__	player.py	/^    def __init__(self, image, game):$/;"	m	class:Player
+__init__	window.py	/^    def __init__(self):$/;"	m	class:Window
+constrainSpeed	player.py	/^    def constrainSpeed(self):$/;"	m	class:Player
+drawFrame	window.py	/^    def drawFrame(self, game):$/;"	m	class:Window
+friction	player.py	/^    def friction(self):$/;"	m	class:Player
+initGame	game.py	/^    def initGame(self):$/;"	m	class:Game
+main	__main__.py	/^def main():$/;"	f
+main	game.py	/^    def main(self):$/;"	m	class:Game
+mainMenu	game.py	/^    def mainMenu(self):$/;"	m	class:Game
+menuScreen	window.py	/^    def menuScreen(self, game):$/;"	m	class:Window
+move	player.py	/^    def move(self, keys, keyBinds):$/;"	m	class:Player
+moveSelf	player.py	/^    def moveSelf(self):$/;"	m	class:Player
+otherTurn	player.py	/^    def otherTurn(self):$/;"	m	class:Player
+takeInput	game.py	/^    def takeInput(self):$/;"	m	class:Game
+thirdTurn	player.py	/^    def thirdTurn(self):$/;"	m	class:Player
+turn	player.py	/^    def turn(self):$/;"	m	class:Player
+updateSpeed	player.py	/^    def updateSpeed(self, keys, keyBinds):$/;"	m	class:Player
