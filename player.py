@@ -6,12 +6,12 @@ from gameObject import GameObject
 
 class Player(GameObject):
     def __init__(self, image, game):
-        super().__init__(500, 500, 1157 / 4, 470 / 4, image, game)
+        super().__init__(500, 500, 470 / 4, 1157 / 4, image, game)
         self.originalImage = self.image
         self.speed = 0
         self.accel = 10
         self.maxSpeed = 50
-        self.direction = -90
+        self.direction = 0
         self.turningSpeed = 5
         self.turningAccel = 5
 
@@ -66,23 +66,21 @@ class Player(GameObject):
         self.height = self.image.get_height()
 
     def moveSelf(self):
-        print("self.speed: {}".format(self.speed))
-        print("self.direction: {}".format(self.direction + 90))
-        radians = math.radians(self.direction)
-        diffX = math.sin(radians) * self.speed * -1
-        diffY = math.cos(radians) * self.speed * -1
-        self.x -= diffX
-        self.y -= diffY
-
-        #if self.x < 0:
-        #    self.x = 0
-        #    self.speed = 0
-        #elif self.x + self.width > self.game.window.width:
-        #    self.x = self.game.window.width - self.width
-        #    self.speed = 0
-        #if self.y < 0:
-        #    self.y = 0
-        #    self.speed = 0
-        #elif self.y + self.height > self.game.window.height:
-        #    self.y = self.game.window.height - self.height
-        #    self.speed = 0
+        if self.speed != 0:
+            radians = math.radians(self.direction)
+            diffX = math.sin(radians) * self.speed
+            diffY = math.cos(radians) * self.speed
+            self.x -= diffX
+            self.y -= diffY
+        if self.x < 0:
+            self.x = 0
+            self.speed = 0
+        elif self.x + self.width > self.game.window.width:
+            self.x = self.game.window.width - self.width
+            self.speed = 0
+        if self.y < 0:
+            self.y = 0
+            self.speed = 0
+        elif self.y + self.height > self.game.window.height:
+            self.y = self.game.window.height - self.height
+            self.speed = 0
