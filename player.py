@@ -1,5 +1,6 @@
 import pygame
 import logging
+import math
 
 from gameObject import GameObject
 
@@ -7,21 +8,17 @@ class Player(GameObject):
     def __init__(self, image, game):
         super().__init__(500, 500, 1157 / 4, 470 / 4, image, game)
         self.originalImage = self.image
-        self.speedX = 0
-        self.speedY = 0
-        self.accelX = 1
-        self.accelY = 1
-        self.maxSpeedX = 50
-        self.maxSpeedY = 50
-        self.direction = 0
-        self.turningSpeed = 0
+        self.speed = 0
+        self.accel = 10
+        self.maxSpeed = 50
+        self.direction = -90
+        self.turningSpeed = 5
         self.turningAccel = 5
-        self.maxTurningSpeed = 50
-        pygame.transform.rotate(self.image, 90)
 
     def move(self, keys, keyBinds):
         self.updateSpeed(keys, keyBinds)
         self.constrainSpeed()
+        self.friction()
         self.turn()
         self.moveSelf()
 
@@ -30,32 +27,32 @@ class Player(GameObject):
             for key in keyBinds[direction]:
                 if keys[key]:
                     if direction == "left":
-                        #self.speedX -= self.accelX
-                        self.direction += self.turningAccel
+                        self.direction += self.turningSpeed
                         logging.info("left  key pressed")
                     if direction == "right":
-                        #self.speedX += self.accelX
-                        self.direction -= self.turningAccel
+                        self.direction -= self.turningSpeed
                         logging.info("right key pressed")
                     if direction == "up":
-                        self.speedY -= self.accelY
+                        self.speed += self.accel
                         logging.info("up    key pressed")
                     if direction == "down":
-                        self.speedY += self.accelY
+                        self.speed -= self.accel
                         logging.info("down  key pressed")
 
     def constrainSpeed(self):
-        if self.speedX > self.maxSpeedX:
-            self.speedX = self.maxSpeedX
-        if self.speedX < self.maxSpeedX * -1:
-            self.speedX = self.maxSpeedX * -1
-        if self.speedY > self.maxSpeedY:
-            self.speedY = self.maxSpeedY
-        if self.speedY < self.maxSpeedY * -1:
-            self.speedY = self.maxSpeedY * -1
+        if self.speed > self.maxSpeed:
+            self.speed = self.maxSpeed
+        elif self.speed < self.maxSpeed * -1:
+            self.speed = self.maxSpeed * -1
 
     def friction(self):
-        return
+        surfaceFriction = 6
+        if self.speed > surfaceFriction:
+            self.speed -= surfaceFriction
+        elif self.speed < -surfaceFriction:
+            self.speed += surfaceFriction
+        else:
+            self.speed = 0
 
     def turn(self):
         originalCenter = self.image.get_rect().center
@@ -65,19 +62,27 @@ class Player(GameObject):
         offsetY = originalCenter[1] - newCenter[1]
         self.x += offsetX
         self.y += offsetY
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
 
     def moveSelf(self):
-        self.x += self.speedX
-        self.y += self.speedY
-        if self.x < 0:
-            self.x = 0
-            self.speedX = 0
-        elif self.x + self.width > self.game.window.width:
-            self.x = self.game.window.width - self.width
-            self.speedX = 0
-        if self.y < 0:
-            self.y = 0
-            self.speedY = 0
-        elif self.y + self.height > self.game.window.height:
-            self.y = self.game.window.height - self.height
-            self.speedY = 0
+        print("self.speed: {}".format(self.speed))
+        print("self.direction: {}".format(self.direction + 90))
+        radians = math.radians(self.direction)
+        diffX = math.sin(radians) * self.speed * -1
+        diffY = math.cos(radians) * self.speed * -1
+        self.x -= diffX
+        self.y -= diffY
+
+        #if self.x < 0:
+        #    self.x = 0
+        #    self.speed = 0
+        #elif self.x + self.width > self.game.window.width:
+        #    self.x = self.game.window.width - self.width
+        #    self.speed = 0
+        #if self.y < 0:
+        #    self.y = 0
+        #    self.speed = 0
+        #elif self.y + self.height > self.game.window.height:
+        #    self.y = self.game.window.height - self.height
+        #    self.speed = 0
