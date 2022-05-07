@@ -9,12 +9,13 @@ Assets	assets.py	/^class Assets():$/;"	c
 Game	game.py	/^class Game():$/;"	c
 GameObject	gameObject.py	/^class GameObject:$/;"	c
 Player	player.py	/^class Player(GameObject):$/;"	c
-Racing game	README.md	/^# Racing game$/;"	c
+Turn	turn.py	/^class Turn(GameObject):$/;"	c
 Window	window.py	/^class Window():$/;"	c
 __init__	assets.py	/^    def __init__(self):$/;"	m	class:Assets
 __init__	game.py	/^    def __init__(self, window, assets):$/;"	m	class:Game
 __init__	gameObject.py	/^    def __init__(self, x, y, width, height, image, game):$/;"	m	class:GameObject
 __init__	player.py	/^    def __init__(self, image, game):$/;"	m	class:Player
+__init__	turn.py	/^    def __init__(self, sharpness, direction, surface, image, game):$/;"	m	class:Turn
 __init__	window.py	/^    def __init__(self):$/;"	m	class:Window
 constrainSpeed	player.py	/^    def constrainSpeed(self):$/;"	m	class:Player
 drawFrame	window.py	/^    def drawFrame(self, game):$/;"	m	class:Window
@@ -26,8 +27,6 @@ mainMenu	game.py	/^    def mainMenu(self):$/;"	m	class:Game
 menuScreen	window.py	/^    def menuScreen(self, game):$/;"	m	class:Window
 move	player.py	/^    def move(self, keys, keyBinds):$/;"	m	class:Player
 moveSelf	player.py	/^    def moveSelf(self):$/;"	m	class:Player
-otherTurn	player.py	/^    def otherTurn(self):$/;"	m	class:Player
 takeInput	game.py	/^    def takeInput(self):$/;"	m	class:Game
-thirdTurn	player.py	/^    def thirdTurn(self):$/;"	m	class:Player
 turn	player.py	/^    def turn(self):$/;"	m	class:Player
 updateSpeed	player.py	/^    def updateSpeed(self, keys, keyBinds):$/;"	m	class:Player
