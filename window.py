@@ -35,7 +35,9 @@ class Window():
 
     def menuScreen(self):
         self.window.blit(self.game.assets.titleImage, (0,0))
-        startText = self.game.titleFont.render("Press space to play", 1, (7, 44, 166))
+        startText = self.game.assets.titleFont.render(
+            "Press space to play", 1, (7, 44, 166)
+        )
         xposition = self.width/2 - startText.get_width()/2
         yposition = self.height/2 - startText.get_height()/2 + 35
         self.window.blit(startText, (xposition, yposition))

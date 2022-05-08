@@ -5,16 +5,16 @@ import math
 from gameObject import GameObject
 
 class Player(GameObject):
-    def __init__(self, image, game):
-        super().__init__(500, 500, 470 / 5, 1157 / 5, image, game)
+    def __init__(self, x, y, image, game):
+        super().__init__(x, y, 94, 231, image, game)
+        self.y -= self.height
         self.originalImage = self.image
         self.speed = 0
         self.accel = self.scale(10)
         self.deaccel = self.scale(2)
         self.maxSpeed = self.scale(30)
         self.direction = 0
-        self.turningSpeed = self.scale(5)
-        self.turningAccel = self.scale(5)
+        self.turningSpeed = 5
 
     def scale(self, num):
         widthScale = self.game.window.width / 1000
@@ -23,10 +23,10 @@ class Player(GameObject):
         num *= meanScale
         return num
 
-    def move(self, keys, keyBinds):
+    def move(self, keys, keyBinds, surface):
         self.updateSpeed(keys, keyBinds)
         self.constrainSpeed()
-        self.friction()
+        self.friction(surface)
         self.turn()
         self.moveSelf()
 
@@ -56,12 +56,11 @@ class Player(GameObject):
         elif self.speed < self.maxSpeed * -1:
             self.speed = self.maxSpeed * -1
 
-    def friction(self):
-        surfaceFriction = 3.5
-        if self.speed > surfaceFriction:
-            self.speed -= surfaceFriction
-        elif self.speed < -surfaceFriction:
-            self.speed += surfaceFriction
+    def friction(self, surface):
+        if self.speed > surface.friction:
+            self.speed -= surface.friction
+        elif self.speed < -surface.friction:
+            self.speed += surface.friction
         else:
             self.speed = 0
 

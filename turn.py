@@ -6,5 +6,5 @@ class Turn(GameObject):
         super().__init__(0, 0, 1000, 1000, image, game)
         self.sharpness = sharpness
         self.direction = direction
-        self.surface = Surface(surface)
+        self.surface = Surface(surface, game)
         self.name = str(sharpness) + " " + direction

@@ -3,6 +3,9 @@
 # a bug please raise an issue on github.
 
 # Changes the dimensions of the pygame window which is launched
-# Default: 1000, 1000
 window_width = 1000
 window_height = 1000
+
+# Default:
+#window_width = 1000
+#window_height = 1000

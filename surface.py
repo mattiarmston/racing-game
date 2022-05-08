@@ -1,18 +1,26 @@
 class Surface:
-    def __init__(self, surfaceName):
+    def __init__(self, surfaceName, game):
+        self.game = game
         if surfaceName == "dirt":
             self.initDirt()
         elif surfaceName == "grass":
             self.initGrass()
         else:
-            self.initDirt() # There are no other surfaces so far
+            self.initDirt() # Default surface
 
     def initDirt(self):
         self.name = "dirt"
-        self.grip = 5
-        self.friction = 3.5
+        self.grip = self.scale(5)
+        self.friction = self.scale(3.5)
 
     def initGrass(self):
         self.name = "grass"
-        self.grip = 4
-        self.friction = 3
+        self.grip = self.scale(4)
+        self.friction = self.scale(3)
+
+    def scale(self, num):
+        widthScale = self.game.window.width / 1000
+        heightScale = self.game.window.height / 1000
+        meanScale = (widthScale + heightScale) / 2
+        num *= meanScale
+        return num
