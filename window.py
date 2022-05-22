@@ -1,34 +1,58 @@
 import pygame
 
 from assets import Assets
-from settings import window_width, window_height
 
 class Window():
     def __init__(self, game):
         settings = self.getSettings()
-        self.game = game
         self.width = settings["window_width"]
         self.height = settings["window_height"]
+        self.fps = settings["fps"]
         self.window = pygame.display.set_mode((self.width, self.height))
+        self.game = game
         pygame.display.set_caption("Ultimate rally")
 
     def getSettings(self):
-        settings = {
+        usrSettings = {
             "window_width": 1000,
             "window_height": 1000,
+            "fps": 60,
         }
         try:
-            settings["window_width"] = int(window_width)
-        except ValueError:
-            pass
+            import settings
+        except ImportError:
+            print("Error: couldn't find settings.py file")
+            return usrSettings
         try:
-            settings["window_height"] = int(window_height)
+            from settings import window_width
+            usrSettings["window_width"] = int(window_width)
         except ValueError:
-            pass
-        return settings
+            print("Error: Variable 'window_width' must be an integer value")
+            print("       Using default value")
+        except ImportError:
+            print("Error: Could not find 'window_width' variable in settings.py")
+            print("       Using default value")
+        try:
+            from settings import window_height
+            usrSettings["window_height"] = int(window_height)
+        except ValueError:
+            print("Error: Variable 'window_height' must be an integer value")
+            print("       Using default value")
+        except ImportError:
+            print("Error: Could not find 'window_height' variable in settings.py")
+            print("       Using default value")
+        try:
+            from settings import fps
+            usrSettings["fps"] = int(fps)
+        except ValueError:
+            print("Error: Variable 'fps' must be an integer value")
+            print("       Using default value")
+        except ImportError:
+            print("Error: Could not find variable 'fps' in settings.py")
+            print("       Using default value")
+        return usrSettings
 
     def drawFrame(self):
-        self.window.blit(self.game.assets.BGImage, (0,0))
         for item in self.game.toDraw:
             self.window.blit(item.image, (item.x, item.y))
         pygame.display.update()

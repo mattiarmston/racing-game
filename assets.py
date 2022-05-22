@@ -4,10 +4,16 @@ import os
 class Assets():
     def __init__(self, game):
         self.game = game
-        self.mainFont = pygame.font.SysFont("arial", 70)
-        self.titleFont = pygame.font.SysFont("C059", 70, italic=True, bold=True)
+        self.mainFont = pygame.font.SysFont("arial", int(self.scale(70)))
+        self.titleFont = pygame.font.SysFont(
+            "C059", int(self.scale(70)), italic=True, bold=True
+        )
+        #self.BGImage = pygame.transform.scale(
+        #    pygame.image.load(os.path.join("assets", "grass-image.png")),
+        #    (self.game.window.width, self.game.window.height)
+        #)
         self.BGImage = pygame.transform.scale(
-            pygame.image.load(os.path.join("assets", "grass-image.png")),
+            pygame.image.load(os.path.join("assets", "gradient.png")),
             (self.game.window.width, self.game.window.height)
         )
         self.titleImage = pygame.transform.scale(
@@ -21,13 +27,8 @@ class Assets():
             self.sixrightdirt,
         ]
 
-    def scaleImage(self, img):
+    def scale(self, num):
         widthScale = self.game.window.width / 1000
         heightScale = self.game.window.height / 1000
-        width = widthScale * img.get_width()
-        height = heightScale * img.get_height()
-        scaleImg = pygame.transform.scale(
-            img,
-            (width, height)
-        )
-        return scaleImg
+        meanScale = (widthScale + heightScale) / 2
+        return num * meanScale

@@ -6,27 +6,52 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	//
 Assets	assets.py	/^class Assets():$/;"	c
+Background	background.py	/^class Background(GameObject):$/;"	c
+FinishBanner	finishBanner.py	/^class FinishBanner(GameObject):$/;"	c
 Game	game.py	/^class Game():$/;"	c
 GameObject	gameObject.py	/^class GameObject:$/;"	c
 Player	player.py	/^class Player(GameObject):$/;"	c
+Surface	surface.py	/^class Surface:$/;"	c
 Turn	turn.py	/^class Turn(GameObject):$/;"	c
 Window	window.py	/^class Window():$/;"	c
-__init__	assets.py	/^    def __init__(self):$/;"	m	class:Assets
-__init__	game.py	/^    def __init__(self, window, assets):$/;"	m	class:Game
+__init__	assets.py	/^    def __init__(self, game):$/;"	m	class:Assets
+__init__	background.py	/^    def __init__(self, x, y, width, height, image, game):$/;"	m	class:Background
+__init__	finishBanner.py	/^    def __init__(self, x, y, image, game):$/;"	m	class:FinishBanner
+__init__	game.py	/^    def __init__(self):$/;"	m	class:Game
 __init__	gameObject.py	/^    def __init__(self, x, y, width, height, image, game):$/;"	m	class:GameObject
-__init__	player.py	/^    def __init__(self, image, game):$/;"	m	class:Player
+__init__	player.py	/^    def __init__(self, x, y, image, game):$/;"	m	class:Player
+__init__	surface.py	/^    def __init__(self, surfaceName, game):$/;"	m	class:Surface
 __init__	turn.py	/^    def __init__(self, sharpness, direction, surface, image, game):$/;"	m	class:Turn
-__init__	window.py	/^    def __init__(self):$/;"	m	class:Window
+__init__	window.py	/^    def __init__(self, game):$/;"	m	class:Window
+checkIfFinished	game.py	/^    def checkIfFinished(self, obj):$/;"	m	class:Game
 constrainSpeed	player.py	/^    def constrainSpeed(self):$/;"	m	class:Player
-drawFrame	window.py	/^    def drawFrame(self, game):$/;"	m	class:Window
-friction	player.py	/^    def friction(self):$/;"	m	class:Player
+drawFrame	window.py	/^    def drawFrame(self):$/;"	m	class:Window
+findSurface	game.py	/^    def findSurface(self, obj):$/;"	m	class:Game
+fps	settings.py	/^fps = 120$/;"	v
+friction	player.py	/^    def friction(self, surface):$/;"	m	class:Player
+getSettings	window.py	/^    def getSettings(self):$/;"	m	class:Window
+initDirt	surface.py	/^    def initDirt(self):$/;"	m	class:Surface
 initGame	game.py	/^    def initGame(self):$/;"	m	class:Game
+initGrass	surface.py	/^    def initGrass(self):$/;"	m	class:Surface
 main	__main__.py	/^def main():$/;"	f
 main	game.py	/^    def main(self):$/;"	m	class:Game
 mainMenu	game.py	/^    def mainMenu(self):$/;"	m	class:Game
-menuScreen	window.py	/^    def menuScreen(self, game):$/;"	m	class:Window
-move	player.py	/^    def move(self, keys, keyBinds):$/;"	m	class:Player
+menuScreen	window.py	/^    def menuScreen(self):$/;"	m	class:Window
+move	player.py	/^    def move(self, keys, keyBinds, surface):$/;"	m	class:Player
 moveSelf	player.py	/^    def moveSelf(self):$/;"	m	class:Player
+oldscroll	background.py	/^    def oldscroll(self, x, y):$/;"	m	class:Background
+removeBGs	game.py	/^    def removeBGs(self):$/;"	m	class:Game
+scale	assets.py	/^    def scale(self, num):$/;"	m	class:Assets
+scale	player.py	/^    def scale(self, num):$/;"	m	class:Player
+scale	surface.py	/^    def scale(self, num):$/;"	m	class:Surface
+scaleSelf	gameObject.py	/^    def scaleSelf(self, game):$/;"	m	class:GameObject
+scroll	background.py	/^    def scroll(self, x, y):$/;"	m	class:Background
+scroll1	background.py	/^    def scroll1(self, x, y):$/;"	m	class:Background
+scroll2	background.py	/^    def scroll2(self, x, y):$/;"	m	class:Background
+scrollBG	game.py	/^    def scrollBG(self):$/;"	m	class:Game
+setTiles	background.py	/^    def setTiles(self):$/;"	m	class:Background
 takeInput	game.py	/^    def takeInput(self):$/;"	m	class:Game
 turn	player.py	/^    def turn(self):$/;"	m	class:Player
 updateSpeed	player.py	/^    def updateSpeed(self, keys, keyBinds):$/;"	m	class:Player
+window_height	settings.py	/^window_height = 1000$/;"	v
+window_width	settings.py	/^window_width = 1000$/;"	v

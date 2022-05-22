@@ -4,6 +4,7 @@ import time
 from window import Window
 from assets import Assets
 from player import Player
+from background import Background
 from turn import Turn
 from surface import Surface
 from finishBanner import FinishBanner
@@ -14,7 +15,6 @@ class Game():
         self.assets = Assets(self)
         self.finished = False
         self.run = True
-        self.FPS = 60
         self.clock = pygame.time.Clock()
         self.keyBinds = {
             "left": [pygame.K_a, pygame.K_LEFT],
@@ -27,6 +27,38 @@ class Game():
     def initGame(self):
         widthScale = self.window.width / 1000
         heightScale = self.window.height / 1000
+        self.bg1 = Background(
+            -500,
+            -500,
+            self.window.width,
+            self.window.height,
+            self.assets.BGImage,
+            self
+        )
+        self.bg2 = Background(
+            self.window.width - 500,
+            -500,
+            self.window.width,
+            self.window.height,
+            self.assets.BGImage,
+            self
+        )
+        self.bg3 = Background(
+            -500,
+            self.window.height - 500,
+            self.window.width,
+            self.window.height,
+            self.assets.BGImage,
+            self
+        )
+        self.bg4 = Background(
+            self.window.width - 500,
+            self.window.height - 500,
+            self.window.width,
+            self.window.height,
+            self.assets.BGImage,
+            self
+        )
         self.finishBanner = FinishBanner(
             400 * widthScale, 50 * heightScale, self.assets.finishBanner, self
         )
@@ -38,7 +70,9 @@ class Game():
             self
         )
         self.turns = [self.turn]
-        self.toDraw = [self.turn, self.player, self.finishBanner]
+        self.bgs = [self.bg1, self.bg2, self.bg3, self.bg4]
+        #self.toDraw = [self.bg, self.turn, self.player, self.finishBanner]
+        self.toDraw = [self.bg1, self.bg2, self.bg3, self.bg4]
 
     def takeInput(self):
         for event in pygame.event.get():
@@ -54,6 +88,15 @@ class Game():
                 return turn.surface
         return self.defaultSurface
 
+    def scrollBG(self):
+        self.bg1.scroll1(5, 5)
+        self.bg2.scroll2(5, 5)
+        self.bg3.scroll3(5, 5)
+        self.bg4.scroll4(5, 5)
+
+    def removeBGs(self):
+        del self.toDraw[0:4]
+
     def checkIfFinished(self, obj):
         offset = (int(obj.x - self.finishBanner.x), int(obj.y - self.finishBanner.y))
         poi = self.finishBanner.mask.overlap(obj.mask, offset)
@@ -64,10 +107,11 @@ class Game():
 
     def main(self):
         while self.finished == False:
-            self.clock.tick(self.FPS)
+            self.clock.tick(self.window.fps)
             self.takeInput()
             surface = self.findSurface(self.player)
             self.player.move(self.keys, self.keyBinds, surface)
+            self.scrollBG()
             self.window.drawFrame()
             self.finished = self.checkIfFinished(self.player)
 
@@ -81,4 +125,5 @@ class Game():
                     self.initGame()
                     self.main()
                     time.sleep(1)
+                    self.finished = False
                     self.mainMenu()

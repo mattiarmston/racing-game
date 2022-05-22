@@ -10,7 +10,7 @@ from assets import Assets
 def main():
     pygame.init()
     logging.basicConfig(filename = 'debug.log', level = logging.INFO)
-    logging.info("\n===> New Game <===\n")
+    logging.info("\n\n===> New Game <===\n")
     game = Game()
     game.mainMenu()
     pygame.quit()

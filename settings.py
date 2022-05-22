@@ -9,3 +9,9 @@ window_height = 1000
 # Default:
 #window_width = 1000
 #window_height = 1000
+
+# Changes the framerate of the game
+fps = 120
+
+# Default:
+#fps = 120
