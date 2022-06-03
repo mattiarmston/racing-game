@@ -8,12 +8,8 @@ class Assets():
         self.titleFont = pygame.font.SysFont(
             "C059", int(self.scale(70)), italic=True, bold=True
         )
-        #self.BGImage = pygame.transform.scale(
-        #    pygame.image.load(os.path.join("assets", "grass-image.png")),
-        #    (self.game.window.width, self.game.window.height)
-        #)
-        self.BGImage = pygame.transform.scale(
-            pygame.image.load(os.path.join("assets", "gradient.png")),
+        self.grassImage = pygame.transform.scale(
+            pygame.image.load(os.path.join("assets", "free-grass.png")),
             (self.game.window.width, self.game.window.height)
         )
         self.titleImage = pygame.transform.scale(

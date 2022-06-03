@@ -29,37 +29,42 @@ class Game():
         widthScale = self.window.width / 1000
         heightScale = self.window.height / 1000
         self.bg1 = Background(
-            -500,
-            -500,
-            self.window.width,
-            self.window.height,
-            self.assets.BGImage,
-            self
+            0, # x position
+            0, # y position
+            self.window.width, # width
+            self.window.height, # height
+            self.assets.grassImage, # image
+            self # game
         )
         self.bg2 = Background(
-            self.window.width - 500,
-            -500,
+            self.window.width,
+            0,
             self.window.width,
             self.window.height,
-            self.assets.BGImage,
+            self.assets.grassImage,
             self
         )
         self.bg3 = Background(
-            -500,
-            self.window.height - 500,
+            0,
+            self.window.height,
             self.window.width,
             self.window.height,
-            self.assets.BGImage,
+            self.assets.grassImage,
             self
         )
         self.bg4 = Background(
-            self.window.width - 500,
-            self.window.height - 500,
             self.window.width,
             self.window.height,
-            self.assets.BGImage,
+            self.window.width,
+            self.window.height,
+            self.assets.grassImage,
             self
         )
+        self.bg1.setAdjacentBG(self.bg2, self.bg3)
+        self.bg2.setAdjacentBG(self.bg1, self.bg4)
+        self.bg3.setAdjacentBG(self.bg4, self.bg1)
+        self.bg4.setAdjacentBG(self.bg3, self.bg2)
+        self.bgs = [self.bg1, self.bg2, self.bg3, self.bg4]
         self.finishBanner = FinishBanner(
             400 * widthScale, 50 * heightScale, self.assets.finishBanner, self
         )
@@ -71,9 +76,16 @@ class Game():
             self
         )
         self.turns = [self.turn]
-        self.bgs = [self.bg1, self.bg2, self.bg3, self.bg4]
-        #self.toDraw = [self.bg, self.turn, self.player, self.finishBanner]
-        self.toDraw = [self.bg1, self.bg2, self.bg3, self.bg4]
+        self.toDraw = [
+            self.bg1,
+            self.bg2,
+            self.bg3,
+            self.bg4,
+            #self.stage1,
+            self.turn,
+            self.player,
+            self.finishBanner
+        ]
 
     def takeInput(self):
         for event in pygame.event.get():
@@ -90,13 +102,63 @@ class Game():
         return self.defaultSurface
 
     def scrollBG(self):
-        self.bg1.scroll1(5, 5)
-        self.bg2.scroll2(5, 5)
-        self.bg3.scroll3(5, 5)
-        self.bg4.scroll4(5, 5)
+        def scroll(x, y):
+            for bg in self.bgs:
+                bg.move(x, y)
+            for bg in self.bgs:
+                bg.wrap()
 
-    def removeBGs(self):
-        del self.toDraw[0:4]
+        diffX, diffY = 0, 0
+        heightLimit = self.window.height * 6/10
+        bottomLimit = self.window.height * 19/20
+        leftLimit = self.window.width / 5
+        rightLimit = self.window.width * 4/5
+        player_direction = self.player.direction % 360
+        if self.player.speed != 0:
+            if self.player.y < heightLimit and self.player.speed != 0:
+                diffY = heightLimit - self.player.y
+            if self.player.y + self.player.height > bottomLimit and self.player.speed != 0:
+                if self.player.speed > 0:
+                    if self.player.direction % 360 > 90 and self.player.direction % 360 < 270:
+                        diffY = bottomLimit - (self.player.y + self.player.height)
+                elif self.player.speed < 0:
+                    if player_direction < 90 or player_direction > 270:
+                        diffY = bottomLimit - (self.player.y + self.player.height)
+            if self.player.x + self.player.width > rightLimit and self.player.speed != 0:
+                diffX = rightLimit - self.player.x - self.player.width
+            if self.player.x < leftLimit and self.player.speed != 0:
+                diffX = leftLimit - self.player.x
+        for item in self.toDraw:
+            if type(item) != Background:
+                item.x += diffX
+                item.y += diffY
+        scroll(diffX, diffY)
+
+
+    def newscrollBG(self):
+        def scroll(x, y):
+            for bg in self.bgs:
+                bg.move(x, y)
+            for bg in self.bgs:
+                bg.wrap()
+
+        diffX, diffY = 0, 0
+        if self.player.speed != 0:
+            center = self.player.image.get_rect().center
+            diffX = self.player.startX - self.player.x
+            diffY = self.player.startY - self.player.y
+            #diffX -= self.player.startCenter[0] - center[0]
+            print("self.player.startCenter, center:", self.player.startCenter, center)
+        #    if self.player.speed != 0:
+        #        diffX = self.player.startX - self.player.x - self.player.width
+        #    if self.player.speed != 0:
+        #        diffX = self.player.startX - self.player.x
+        for item in self.toDraw:
+            if type(item) != Background:
+                item.x += diffX
+                item.y += diffY
+        scroll(diffX, diffY)
+
 
     def checkIfFinished(self, obj):
         offset = (int(obj.x - self.finishBanner.x), int(obj.y - self.finishBanner.y))
