@@ -8,13 +8,16 @@ class Player(GameObject):
     def __init__(self, x, y, image, game):
         super().__init__(x, y, 94, 231, image, game)
         self.y -= self.height
+        self.startX, self.startY = self.x, self.y
+        self.startCenter = self.image.get_rect().center
         self.originalImage = self.image
         self.speed = 0
-        self.accel = self.scale(10)
-        self.deaccel = self.scale(5)
-        self.maxSpeed = self.scale(30)
+        self.accel = self.scale(0.6)
+        self.deaccel = self.scale(0.75)
+        self.maxSpeed = self.scale(75)
+        self.accelerating = False
         self.direction = 0
-        self.turningSpeed = 5
+        self.turningSpeed = 1
 
     def scale(self, num):
         widthScale = self.game.window.width / 1000
@@ -25,12 +28,14 @@ class Player(GameObject):
 
     def move(self, keys, keyBinds, surface):
         self.updateSpeed(keys, keyBinds)
+        self.balanceSpeed()
         self.constrainSpeed()
         self.friction(surface)
         self.turn()
         self.moveSelf()
 
     def updateSpeed(self, keys, keyBinds):
+        self.accelerating = False
         for direction in keyBinds:
             for key in keyBinds[direction]:
                 if keys[key]:
@@ -44,14 +49,32 @@ class Player(GameObject):
                         logging.info("right key pressed")
                     if direction == "up":
                         self.speed += self.accel
+                        self.accelerating = True
                         logging.info("up    key pressed")
                     if direction == "down":
                         if self.speed - self.deaccel > 0:
                             self.speed -= self.deaccel
                         else:
                             #self.speed = 0
-                            self.speed -= self.deaccel
+                            self.speed -= self.accel * 2/3
                         logging.info("down  key pressed")
+
+    def balanceTurn(self):
+        return
+
+    def balanceSpeed(self):
+        if self.speed < 5 and self.accelerating:
+            self.speed += 0.1
+        if self.speed < 10 and self.accelerating:
+            self.speed += 0.075
+        if self.speed < 20 and self.accelerating:
+            self.speed += 0.05
+        elif self.speed > 20:
+            self.speed -= 0.05
+        elif self.speed > 30:
+            self.speed -= 0.1
+        elif self.speed > 40:
+            self.speed -= 0.15
 
     def constrainSpeed(self):
         self.speed = min(self.speed, self.maxSpeed)
@@ -85,13 +108,9 @@ class Player(GameObject):
             self.y -= diffY
             if self.x < 0:
                 self.x = 0
-                self.speed = - 0.5
             elif self.x + self.width > self.game.window.width:
                 self.x = self.game.window.width - self.width
-                self.speed = - 0.5
             if self.y < 0:
                 self.y = 0
-                self.speed = - 0.5
             elif self.y + self.height > self.game.window.height:
                 self.y = self.game.window.height - self.height
-                self.speed = - 0.5
