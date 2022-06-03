@@ -11,12 +11,12 @@ class Surface:
     def initDirt(self):
         self.name = "dirt"
         self.grip = self.scale(5)
-        self.friction = self.scale(3.5)
+        self.friction = self.scale(0.075)
 
     def initGrass(self):
         self.name = "grass"
         self.grip = self.scale(4)
-        self.friction = self.scale(3)
+        self.friction = self.scale(0.05)
 
     def scale(self, num):
         widthScale = self.game.window.width / 1000

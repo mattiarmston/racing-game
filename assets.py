@@ -18,7 +18,9 @@ class Assets():
         )
         self.finishBanner = pygame.image.load(os.path.join("assets", "finish-banner.png"))
         self.playerImage = pygame.image.load(os.path.join("assets", "subaru-impretza.png"))
+        self.stage1 = pygame.image.load(os.path.join("assets", "stage1.png"))
         self.sixrightdirt = pygame.image.load(os.path.join("assets", "six-right-dirt.png"))
+        self.straightdirt = pygame.image.load(os.path.join("assets", "straight-dirt.png"))
         self.dirtTurns = [
             self.sixrightdirt,
         ]

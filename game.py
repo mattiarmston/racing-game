@@ -7,6 +7,7 @@ from assets import Assets
 from player import Player
 from background import Background
 from turn import Turn
+from stage import Stage
 from surface import Surface
 from finishBanner import FinishBanner
 
@@ -23,7 +24,7 @@ class Game():
             "up": [pygame.K_w, pygame.K_UP],
             "down": [pygame.K_s, pygame.K_DOWN],
         }
-        self.defaultSurface = Surface("grass", self)
+        self.defaultSurface = Surface("dirt", self)
 
     def initGame(self):
         widthScale = self.window.width / 1000
@@ -66,12 +67,25 @@ class Game():
         self.bg4.setAdjacentBG(self.bg3, self.bg2)
         self.bgs = [self.bg1, self.bg2, self.bg3, self.bg4]
         self.finishBanner = FinishBanner(
-            400 * widthScale, 50 * heightScale, self.assets.finishBanner, self
+            400 * widthScale,
+            -10000 * heightScale,
+            self.assets.finishBanner,
+            self
         )
-        self.turn = Turn(6, "right", "dirt", self.assets.sixrightdirt, self)
+        #self.turn = Turn(6, "right", "dirt", self.assets.sixrightdirt, self)
+        self.turn = Turn(0, "straight", "dirt", self.assets.straightdirt, self)
+        self.stage1 = Stage(
+            self.window.width * -9,
+            self.window.height * -9,
+            self.window.width * 10,
+            self.window.height * 10,
+            self.assets.stage1,
+            self,
+            Surface("dirt", self)
+        )
         self.player = Player(
             self.window.width / 2,
-            self.window.height,
+            self.window.height * 19/20,
             self.assets.playerImage,
             self
         )
@@ -94,6 +108,13 @@ class Game():
         self.keys = pygame.key.get_pressed()
 
     def findSurface(self, obj):
+        offset = (int(obj.x - self.stage1.x), int(obj.y - self.stage1.y))
+        poi = self.stage1.mask.overlap(obj.mask, offset)
+        if poi != None:
+            return self.stage1.surface
+        return self.defaultSurface
+
+    def oldfindSurface(self, obj):
         for turn in self.turns:
             offset = (int(obj.x - turn.x), int(obj.y - turn.y))
             poi = turn.mask.overlap(obj.mask, offset)
