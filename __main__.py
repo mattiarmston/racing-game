@@ -9,8 +9,15 @@ from assets import Assets
 
 def main():
     pygame.init()
-    logging.basicConfig(filename = 'debug.log', level = logging.INFO)
-    logging.info("\n\n===> New Game <===\n")
+    logging.basicConfig(
+        filename='debug.log',
+        format='%(levelname)s: %(asctime)s: %(message)s',
+        datefmt='%H:%M:%S',
+        level=logging.INFO
+    )
+    logging.info("")
+    logging.info("===> New Game <===")
+    logging.info("")
     game = Game()
     game.mainMenu()
     pygame.quit()

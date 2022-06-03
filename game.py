@@ -1,5 +1,6 @@
 import pygame
 import time
+import logging
 
 from window import Window
 from assets import Assets
@@ -122,7 +123,9 @@ class Game():
                 if event.type == pygame.QUIT:
                     quit()
                 if pygame.key.get_pressed()[pygame.K_SPACE]:
+                    logging.info("Initialising game")
                     self.initGame()
+                    logging.info("Game initialised")
                     self.main()
                     time.sleep(1)
                     self.finished = False

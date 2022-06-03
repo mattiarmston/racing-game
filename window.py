@@ -1,4 +1,5 @@
 import pygame
+import logging
 
 from assets import Assets
 
@@ -22,6 +23,7 @@ class Window():
             import settings
         except ImportError:
             print("Error: couldn't find settings.py file")
+            logging.warning("Error: couldn't find settings.py file")
             return usrSettings
         try:
             from settings import window_width
@@ -29,27 +31,39 @@ class Window():
         except ValueError:
             print("Error: Variable 'window_width' must be an integer value")
             print("       Using default value")
+            logging.warning("Error: Variable 'window_width' must be an integer value")
+            logging.warning("       Using default value")
         except ImportError:
             print("Error: Could not find 'window_width' variable in settings.py")
             print("       Using default value")
+            logging.warning("Error: Could not find 'window_width' variable in settings.py")
+            logging.warning("       Using default value")
         try:
             from settings import window_height
             usrSettings["window_height"] = int(window_height)
         except ValueError:
             print("Error: Variable 'window_height' must be an integer value")
             print("       Using default value")
+            logging.warning("Error: Variable 'window_height' must be an integer value")
+            logging.warning("       Using default value")
         except ImportError:
             print("Error: Could not find 'window_height' variable in settings.py")
             print("       Using default value")
+            logging.warning("Error: Could not find 'window_height' variable in settings.py")
+            logging.warning("       Using default value")
         try:
             from settings import fps
             usrSettings["fps"] = int(fps)
         except ValueError:
             print("Error: Variable 'fps' must be an integer value")
             print("       Using default value")
+            loggging.warning("Error: Variable 'fps' must be an integer value")
+            loggging.warning("       Using default value")
         except ImportError:
             print("Error: Could not find variable 'fps' in settings.py")
             print("       Using default value")
+            loggging.warning("Error: Could not find variable 'fps' in settings.py")
+            loggging.warning("       Using default value")
         return usrSettings
 
     def drawFrame(self):
