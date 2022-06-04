@@ -74,15 +74,6 @@ class Game():
         )
         #self.turn = Turn(6, "right", "dirt", self.assets.sixrightdirt, self)
         self.turn = Turn(0, "straight", "dirt", self.assets.straightdirt, self)
-        self.stage1 = Stage(
-            self.window.width * -9,
-            self.window.height * -9,
-            self.window.width * 10,
-            self.window.height * 10,
-            self.assets.stage1,
-            self,
-            Surface("dirt", self)
-        )
         self.player = Player(
             self.window.width / 2,
             self.window.height * 19/20,
@@ -108,13 +99,6 @@ class Game():
         self.keys = pygame.key.get_pressed()
 
     def findSurface(self, obj):
-        offset = (int(obj.x - self.stage1.x), int(obj.y - self.stage1.y))
-        poi = self.stage1.mask.overlap(obj.mask, offset)
-        if poi != None:
-            return self.stage1.surface
-        return self.defaultSurface
-
-    def oldfindSurface(self, obj):
         for turn in self.turns:
             offset = (int(obj.x - turn.x), int(obj.y - turn.y))
             poi = turn.mask.overlap(obj.mask, offset)
@@ -156,7 +140,7 @@ class Game():
         scroll(diffX, diffY)
 
 
-    def newscrollBG(self):
+    def scrollBG(self):
         def scroll(x, y):
             for bg in self.bgs:
                 bg.move(x, y)
@@ -166,7 +150,9 @@ class Game():
         diffX, diffY = 0, 0
         if self.player.speed != 0:
             center = self.player.image.get_rect().center
+            diffCenter = self.player.startCenter[0] - center[0]
             diffX = self.player.startX - self.player.x
+            #diffX -= diffCenter
             diffY = self.player.startY - self.player.y
             #diffX -= self.player.startCenter[0] - center[0]
             print("self.player.startCenter, center:", self.player.startCenter, center)
